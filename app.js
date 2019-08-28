@@ -40,6 +40,6 @@ app.get("/",function(req,res){
 app.use(appointmentRoutes);
 app.use(authRoutes);
 
-app.listen(8080, process.env.IP, function(){
+app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Hair Salon server has started");
 });     
