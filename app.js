@@ -13,7 +13,7 @@ var express = require("express"),
 var appointmentRoutes = require("./routes/appointments"),
     authRoutes = require("./routes/auth");
 
-mongoose.connect("mongodb://localhost/hair_salon");
+mongoose.connect(process.env.DATABASEURL || "mongodb://localhost/hair_salon");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
