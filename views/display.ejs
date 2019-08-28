@@ -1,0 +1,9 @@
+<% include ../partials/header %>
+<h1>Estimated wait is: <span id="estimate"></span></h1>
+<ol>
+    <% appointments.forEach(function(appointment){ %>
+        <li><%= appointment.name %></li>
+    <% }); %>
+</ol>
+<script src="/scripts/estimate.js"></script>
+<% include ../partials/footer %>

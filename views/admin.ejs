@@ -1,0 +1,49 @@
+<% include ../partials/header %>
+<a class="btn btn-primary btn-sm" href="/logout">Logout</a>
+<div class="container">
+    <h3>Customer Queue</h3>
+    <a class="btn btn-primary btn-sm" href="/display" target="_blank">Display</a>
+<ol id="appts">
+    <% appointments.forEach(function(appointment){ %>
+        <% if(appointment.madeAppointment){ %>
+            <li>
+                <form class="delete-form" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
+                    <%= appointment.name %>, <%= appointment.phone %>*
+                    <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
+                </form>
+            </li>
+        <% } %>
+    <% }); %>
+    <% appointments.forEach(function(appointment){ %>
+        <% if(!appointment.madeAppointment){ %>
+            <li>
+                <form class="delete-form" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
+                    <%= appointment.name %>, <%= appointment.phone %>
+                    <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
+                </form>
+            </li>
+        <% } %>
+    <% }); %>
+</ol>
+</div>
+<hr>
+<div class="container">
+    <h3>Add a customer</h3>
+    <form "/appointments" method="POST">
+        <input type="text" name="name" placeholder="name" required>
+        <input type="text" name="phone" placeholder="phone" required>
+        <label for="madeAppointment">Appointment?</label>
+        <input type="radio" name="madeAppointment" value="true">Yes
+        <input type="radio" name="madeAppointment" value="false">No
+        <button type="submit" class="btn btn-primary btn-sm">Add customer to queue</button>
+    </form>
+</div>
+<hr>
+<div class="container">
+<form>
+    <label for="workers">Number of workers: </label><input id="workers" name="workers" type="number" value=1 min=1>
+</form>
+<h4>Estimated customer wait: <span id="estimate"></span> minutes</h4>
+</div>
+<script src="/scripts/estimate.js"></script>
+<% include ../partials/footer %>
