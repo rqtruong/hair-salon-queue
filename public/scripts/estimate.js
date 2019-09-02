@@ -9,5 +9,13 @@ function updateEstimate(){
     estimateValue.innerHTML = estimateValueLow + " — " + estimateValueHigh;
 }
 
-workers.addEventListener("load", updateEstimate);
+workers.onkeydown = function(e) {
+    if(!((e.keyCode > 95 && e.keyCode < 106)
+      || (e.keyCode > 47 && e.keyCode < 58) 
+      || e.keyCode == 8)) {
+        return false;
+    }
+}
+
+updateEstimate();
 workers.addEventListener("change", updateEstimate);

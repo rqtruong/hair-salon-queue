@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
+var sanitizer = require("string-sanitizer");
 
 var appointmentSchema = new mongoose.Schema({
     name: String,
@@ -21,14 +22,15 @@ router.get("/appointments",function(req,res){
 });
 
 router.post("/appointments", function(req,res){
-    var name = req.body.name;
-    var phone = req.body.phone;
+    var name = sanitizer.sanitize.addDash(req.body.name);
+    var phone = sanitizer.sanitize.addDash(req.body.phone);
     var newAppointment = {name:name, phone:phone, madeAppointment:true};
     //Create a new campground and save to a database
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
             console.log(err);
         } else{
+            req.flash("success","Your appointment was successfully created!");
             res.redirect("/appointments");    
         }
     })
@@ -45,9 +47,8 @@ router.get("/admin", isLoggedIn, function(req,res){
 });
 
 router.post("/admin", function(req,res){
-    var name = req.body.name;
-    var phone = req.body.phone;
-    console.log(req.body.madeAppointment);
+    var name = sanitizer.sanitize.addDash(req.body.name);
+    var phone = sanitizer.sanitize.addDash(req.body.phone);
     if(req.body.madeAppointment === "true"){
         var madeAppointment = true;
         console.log("Appointment was made");
@@ -56,7 +57,7 @@ router.post("/admin", function(req,res){
         console.log("This was a walk-in");
     }
     var newAppointment = {name:name, phone:phone, madeAppointment:madeAppointment};
-    //Create a new campground and save to a database
+    //Create a new appointment and save to database
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
             console.log(err);
@@ -90,6 +91,7 @@ function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }
+    req.flash("error","You need to be logged in to do that");
     res.redirect("/login");
 }
 
