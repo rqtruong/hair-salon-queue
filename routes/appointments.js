@@ -6,6 +6,7 @@ var sanitizer = require("string-sanitizer");
 var appointmentSchema = new mongoose.Schema({
     name: String,
     phone: String,
+    customerCount: Number,
     madeAppointment: Boolean
 });
 
@@ -22,10 +23,10 @@ router.get("/appointments",function(req,res){
 });
 
 router.post("/appointments", function(req,res){
-    var name = sanitizer.sanitize.addDash(req.body.name);
+    var name = sanitizer.sanitize.keepSpace(req.body.name);
     var phone = sanitizer.sanitize.addDash(req.body.phone);
-    var newAppointment = {name:name, phone:phone, madeAppointment:true};
-    //Create a new campground and save to a database
+    var customerCount = req.body.customerCount;
+    var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
             console.log(err);
@@ -47,8 +48,9 @@ router.get("/admin", isLoggedIn, function(req,res){
 });
 
 router.post("/admin", function(req,res){
-    var name = sanitizer.sanitize.addDash(req.body.name);
+    var name = sanitizer.sanitize.keepSpace(req.body.name);
     var phone = sanitizer.sanitize.addDash(req.body.phone);
+    var customerCount = req.body.customerCount;
     if(req.body.madeAppointment === "true"){
         var madeAppointment = true;
         console.log("Appointment was made");
@@ -56,8 +58,7 @@ router.post("/admin", function(req,res){
         var madeAppointment = false;
         console.log("This was a walk-in");
     }
-    var newAppointment = {name:name, phone:phone, madeAppointment:madeAppointment};
-    //Create a new appointment and save to database
+    var newAppointment = {name:name, phone:phone, madeAppointment:madeAppointment, customerCount:customerCount};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
             console.log(err);

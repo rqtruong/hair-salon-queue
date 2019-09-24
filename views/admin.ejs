@@ -8,7 +8,7 @@
         <% if(appointment.madeAppointment){ %>
             <li>
                 <form class="delete-form" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
-                    <%= appointment.name %>, <%= appointment.phone %>*
+                    <%= appointment.name %> (<%= appointment.customerCount %>), <%= appointment.phone %>*
                     <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
                 </form>
             </li>
@@ -18,7 +18,7 @@
         <% if(!appointment.madeAppointment){ %>
             <li>
                 <form class="delete-form" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
-                    <%= appointment.name %>, <%= appointment.phone %>
+                    <%= appointment.name %> (<%= appointment.customerCount %>), <%= appointment.phone %>
                     <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
                 </form>
             </li>
@@ -32,6 +32,8 @@
     <form "/appointments" method="POST">
         <input type="text" name="name" placeholder="name" required>
         <input type="text" name="phone" placeholder="phone" required>
+        <label for="customerCount">Number of Customers?</label>
+        <input type="number" name="customerCount" value=1 min=1 required>
         <label for="madeAppointment">Appointment?</label>
         <input type="radio" name="madeAppointment" value="true">Yes
         <input type="radio" name="madeAppointment" value="false">No
