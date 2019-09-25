@@ -1,4 +1,4 @@
-var express = require("express"),
+const express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
     methodOverride = require("method-override"),
@@ -7,9 +7,7 @@ var express = require("express"),
     mongoose = require("mongoose"),
     flash = require("connect-flash"),
     sanitizer = require("string-sanitizer"),
-    User = require("./models/user"),
-    Ddos = require('ddos'),
-    ddos = new Ddos({burst: 2, limit: 6});
+    User = require("./models/user");
 
 //requiring routes
 var appointmentRoutes = require("./routes/appointments"),
@@ -20,7 +18,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.use(flash());
-app.use(ddos.express);
 app.set("view engine","ejs");
 
 app.use(require("express-session")({

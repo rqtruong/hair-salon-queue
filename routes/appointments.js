@@ -1,7 +1,19 @@
-var express = require("express");
-var router = express.Router();
-var mongoose = require("mongoose");
-var sanitizer = require("string-sanitizer");
+const express = require("express"),
+    app = express(),
+    router = express.Router(),
+    mongoose = require("mongoose"),
+    rateLimit = require("express-rate-limit"),
+    sanitizer = require("string-sanitizer");
+    
+//setup rate limiter
+app.set('trust proxy', 1);
+const appointmentCreationLimiter = rateLimit({
+    windowMs: 240 * 60 * 1000, // 4 hours * 60 minutes
+    max: 2,
+    message:
+        "Too many appointments created from this IP. Please call In 2 Cuts at (408) 435-2887"
+});
+
 
 var appointmentSchema = new mongoose.Schema({
     name: String,
@@ -22,7 +34,7 @@ router.get("/appointments",function(req,res){
     });
 });
 
-router.post("/appointments", function(req,res){
+router.post("/appointments", appointmentCreationLimiter, function(req,res){
     var name = sanitizer.sanitize.keepSpace(req.body.name);
     var phone = sanitizer.sanitize.addDash(req.body.phone);
     var customerCount = req.body.customerCount;
