@@ -24,12 +24,38 @@ var appointmentSchema = new mongoose.Schema({
 
 var Appointment = mongoose.model("Appointment", appointmentSchema);
 
+//time estimate variables
+var numWorkers = 1;
+var numAppointments = 0;
+var numQueue = 0;
+var estimateValueLow = 0;
+var estimateValueHigh = estimateValueLow + 10;
+function updateNumAppointments(){
+    Appointment.countDocuments({}, function(err,count){
+        numAppointments = count;
+        console.log("Number of appointments now: " + count);
+    });
+    Appointment.find({}, function(err, appoints){
+        numQueue = 0;
+        appoints.forEach(function(appt){
+            numQueue += appt.customerCount;
+        });
+        console.log("Number in queue: " + numQueue);
+        console.log("Number of workers: " + numWorkers);
+        estimateValueLow = Math.max(0, numQueue*20 - numWorkers*20);
+        estimateValueHigh = estimateValueLow + 10;
+        console.log("Time estimate is " + estimateValueLow + " — "  + estimateValueHigh + " minutes");
+    });
+}
+
+updateNumAppointments();
+
 router.get("/appointments",function(req,res){
     Appointment.find({},function(err,allAppointments){
         if(err){
             console.log(err);
         } else{
-            res.render("appointments",{appointments:allAppointments});
+            res.render("appointments",{appointments:allAppointments, estimateValueLow:estimateValueLow, estimateValueHigh:estimateValueHigh});
         }
     });
 });
@@ -54,7 +80,7 @@ router.get("/admin", isLoggedIn, function(req,res){
         if(err){
             console.log(err);
         } else{
-            res.render("admin",{appointments:allAppointments});
+            res.render("admin",{appointments:allAppointments, numWorkers:numWorkers, estimateValueLow:estimateValueLow, estimateValueHigh:estimateValueHigh});
         }
     });
 });
@@ -75,6 +101,7 @@ router.post("/admin", function(req,res){
         if(err){
             console.log(err);
         } else{
+            updateNumAppointments();
             res.redirect("/admin");    
         }
     })
@@ -85,10 +112,18 @@ router.delete("/admin/:id",function(req,res){
         if(err){
             console.log(err);
         } else{
+            updateNumAppointments();
             res.redirect("/admin");
         }
-    })
-})
+    });
+});
+
+router.post("/workers", function(req,res){
+    numWorkers = req.body.workers;
+    console.log(req.body.workers);
+    updateNumAppointments();
+    res.redirect("/admin");
+});
 
 router.get("/display",function(req,res){
     Appointment.find({},function(err,allAppointments){

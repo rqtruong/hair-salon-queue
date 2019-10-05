@@ -42,10 +42,11 @@
 </div>
 <hr>
 <div class="container">
-<form>
-    <label for="workers">Number of workers: </label><input id="workers" name="workers" type="number" value=1 min=1>
+<form action="/workers" method="POST">
+    <label for="workers">Number of workers: </label><input id="workers" name="workers" type="number" value=<%= numWorkers %> min=1>
+    <button type="submit" class="btn btn-primary btn-sm">Update for time estimate</button>
 </form>
-<h4>Estimated customer wait: <span id="estimate"></span> minutes</h4>
+<h4>Estimated customer wait: <%= estimateValueLow + " — " + estimateValueHigh %> minutes</h4>
 </div>
 <script src="/scripts/estimate.js"></script>
 <% include ../partials/footer %>
