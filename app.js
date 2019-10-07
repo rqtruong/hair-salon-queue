@@ -6,7 +6,6 @@ const express = require("express"),
     LocalStrategy = require("passport-local"),
     mongoose = require("mongoose"),
     flash = require("connect-flash"),
-    sanitizer = require("string-sanitizer"),
     User = require("./models/user");
 
 //requiring routes
@@ -39,7 +38,6 @@ app.use(function(req,res,next){
     next();
 });
 
-//currently blank
 app.get("/",function(req,res){
     res.render("landing");
 });

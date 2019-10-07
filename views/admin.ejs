@@ -31,7 +31,7 @@
     <h3>Add a customer</h3>
     <form "/appointments" method="POST">
         <input type="text" name="name" placeholder="name" required>
-        <input type="text" name="phone" placeholder="phone" required>
+        <input type="tel" name="phone" placeholder="phone" required>
         <label for="customerCount">Number of Customers?</label>
         <input type="number" name="customerCount" value=1 min=1 required>
         <label for="madeAppointment">Appointment?</label>
@@ -48,5 +48,4 @@
 </form>
 <h4>Estimated customer wait: <%= estimateValueLow + " — " + estimateValueHigh %> minutes</h4>
 </div>
-<script src="/scripts/estimate.js"></script>
 <% include ../partials/footer %>

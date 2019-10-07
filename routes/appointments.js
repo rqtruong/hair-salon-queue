@@ -3,8 +3,8 @@ const express = require("express"),
     router = express.Router(),
     mongoose = require("mongoose"),
     rateLimit = require("express-rate-limit"),
-    sanitizer = require("string-sanitizer");
-    
+    validator = require('validator');
+
 //setup rate limiter
 app.set('trust proxy', 1);
 const appointmentCreationLimiter = rateLimit({
@@ -61,9 +61,9 @@ router.get("/appointments",function(req,res){
 });
 
 router.post("/appointments", appointmentCreationLimiter, function(req,res){
-    var name = sanitizer.sanitize.keepSpace(req.body.name);
-    var phone = sanitizer.sanitize.addDash(req.body.phone);
-    var customerCount = req.body.customerCount;
+    var name = validator.whitelist(req.body.name, 'A-Za-z0-9');
+    var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9\s\-');
+    var customerCount = validator.toInt(req.body.customerCount);
     var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
@@ -86,9 +86,9 @@ router.get("/admin", isLoggedIn, function(req,res){
 });
 
 router.post("/admin", function(req,res){
-    var name = sanitizer.sanitize.keepSpace(req.body.name);
-    var phone = sanitizer.sanitize.addDash(req.body.phone);
-    var customerCount = req.body.customerCount;
+    var name = validator.whitelist(req.body.name, 'A-Za-z0-9');
+    var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9\s\-');
+    var customerCount = validator.toInt(req.body.customerCount);
     if(req.body.madeAppointment === "true"){
         var madeAppointment = true;
         console.log("Appointment was made");
@@ -102,7 +102,7 @@ router.post("/admin", function(req,res){
             console.log(err);
         } else{
             updateNumAppointments();
-            res.redirect("/admin");    
+            res.redirect("/admin");
         }
     })
 });
