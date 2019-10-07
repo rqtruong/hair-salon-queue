@@ -5,7 +5,7 @@ function phoneFormat(str){
     if (match) {
         return '(' + match[1] + ') ' + match[2] + '-' + match[3];
     };  
-    return null;
+    return numbersOnly;
 }
 
 var phoneInput = document.querySelector("input[name='phone']");
