@@ -69,6 +69,7 @@ router.post("/appointments", appointmentCreationLimiter, function(req,res){
         if(err){
             console.log(err);
         } else{
+            updateNumAppointments();
             req.flash("success","Your appointment was successfully created!");
             res.redirect("/appointments");    
         }
