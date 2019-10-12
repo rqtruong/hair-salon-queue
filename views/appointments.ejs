@@ -1,5 +1,209 @@
 <% include ../partials/header %>
-<div class="container">
+<header>
+    <div>
+        <h1>In 2 Cuts</h1>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#appointments">Appointments</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#location">Location</a></li>
+        </ul>
+    </nav>
+</header>
+<!-- <div id="hero">
+    <div class="background-image"></div>
+    <a href="#appointments" class="btn">Make an Appointment Today</a> 
+</div> -->
+<div id="top-row">
+    <div id="top-img">
+        <img src="img/stockphoto.jpg">
+    </div>
+    <div id="appointments">
+        <h3 class="title"><i class="fas fa-calendar-check"></i> Check-In</h3>
+        <div class="flash-container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        <h4>Your estimated wait: <%= estimateValueLow + " — " + estimateValueHigh %> minutes</h4>
+        <form "/appointments" method="POST" id="check-in-form">
+            <input type="text" name="name" placeholder="name" required>
+            <input type="tel" name="phone" placeholder="phone" required> 
+            <fieldset id="party-of">
+                <label for="customerCount">Party of:</label>
+                <input type="number" name="customerCount" value=1 min=1 required>
+            </fieldset>
+            <input type="submit" class="btn" value="Book Now">
+        </form>
+        <!-- <h4><a href="https://nameless-plains-37869.herokuapp.com/appointments" rel="noopener noreferrer" target="_blank">Book Now (for testing purposes only)</a></h4> -->
+    </div>
+</div>
+<hr>
+<div id="services">
+    <h3 class="title"><i class="fas fa-cut"></i> Services</h3>
+    <div id="service-categories">
+            <div id="nails" class="category">
+                <h4>Nails</h4>
+                <div class="service-list">
+                    <div class="service-names">
+                        <ul>
+                            <li>Manicure</li>
+                            <li>Pedicure</li>
+                            <li>Nail Art</li>
+                            <li>Shellac</li>
+                            <li>Color Change</li>
+                            <li>Mani-Pedi</li>
+                            <li>Eyebrows Tint</li>
+                            <li>Eyelashes Tint</li>
+                            <li>Up Do</li>
+                        </ul>
+                    </div>
+                    <div class="prices">
+                        <ul>
+                            <li>15</li>
+                            <li>25</li>
+                            <li>3 / EA</li>
+                            <li>35</li>
+                            <li>10-16</li>
+                            <li>40</li>
+                            <li>15</li>
+                            <li>25</li>
+                            <li>60</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="hair" class="category">
+                <h4>Hair</h4>
+                <div class="service-list">
+                    <div class="service-names">
+                        <ul>
+                            <li>Men Cut</li>
+                            <li>Shampoo Cut</li>
+                            <li>The Works</li>
+                            <li>Women Cut</li>
+                            <li>Shampoo Cut</li>
+                            <li>Bang / Beardtrim</li>
+                            <li>Deep Conditioner</li>
+                            <li>Wash & Styling</li>
+                            <li>Flat Curling Iron</li>
+                            <li>Color</li>
+                            <li>Color Touch-up</li>
+                            <li>Highlight</li>
+                            <li>Perm</li>
+                            <li>Hair Relaxing</li>
+                        </ul>
+                    </div>
+                    <div class="prices">
+                        <ul>
+                            <li>20</li>
+                            <li>25</li>
+                            <li>40 & up</li>
+                            <li>25 & up</li>
+                            <li>30 & up</li>
+                            <li>15</li>
+                            <li>30</li>
+                            <li>25 & up</li>
+                            <li>40 & up</li>
+                            <li>80 & up</li>
+                            <li>75 & up</li>
+                            <li>85 & up</li>
+                            <li>80 & up</li>
+                            <li>90 & up</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="waxing" class="category">
+                <h4>Waxing</h4>
+                <div class="service-list">
+                    <div class="service-names">
+                        <ul>
+                            <li>Eyebrows</li>
+                            <li>Chin or Lips</li>
+                            <li>Sideburns</li>
+                            <li>Face</li>
+                            <li>Under Arms</li>
+                            <li>Half Arms</li>
+                            <li>Full Arms</li>
+                            <li>Half Legs</li>
+                            <li>Full Legs</li>
+                            <li>Bikini Line</li>
+                            <li>Back / Chest</li>
+                            <li>Facial</li>
+                        </ul>
+                    </div>
+                    <div class="prices">
+                        <ul>
+                            <li>15</li>
+                            <li>8</li>
+                            <li>15</li>
+                            <li>45</li>
+                            <li>15</li>
+                            <li>35 & up</li>
+                            <li>60 & up</li>
+                            <li>40 & up</li>
+                            <li>65 & up</li>
+                            <li>30</li>
+                            <li>53 & up</li>
+                            <li>65</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>    
+</div>
+<hr>
+<div id="testimonials">
+    <h3 class="title"><i class="fas fa-heart"></i> Testimonials</h3>
+    <div id="quotes">
+        <div class="review">
+            <h4>Professional and good with kids hair cuts too, I have taken my kid there 4 times to the place and they have been more than accommodating.</h4>
+            <h5>Dhiraj J.</h5>
+        </div>
+        <div class="review">
+            <h4>Reasonably priced, AMAZINGLY talented staff. Warm, welcoming environment. I'd go every week if I had the time.</h4>
+            <h5>Kathryn W.</h5>
+        </div>
+        <div class="review">
+            <h4>The ladies here are so friendly and detail orientated! Been going here for 2 years, and have not been disappointed.</h4>
+            <h5>Brandon H.</h5>
+        </div>
+
+    </div>
+</div>
+<hr>
+<div id="location">
+    <h3 class="title"><i class="fas fa-map-marker-alt"></i> Location and Hours</h3>
+    <div id="location-hours">
+        <div id="hours">
+            <ul>
+                <li>Monday — Friday 10AM - 7 PM</li>
+                <li>Saturday 10AM - 5 PM</li>
+                <li>Sunday 10AM - 4 PM</li>
+            </ul>
+        </div>
+        <div id="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.1389726644957!2d-121.94738604900391!3d37.41018997972848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fc907c66c9219%3A0xb47962cc4dd866d4!2sIn%202%20Cuts!5e0!3m2!1sen!2sus!4v1568780224132!5m2!1sen!2sus" width="400" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>
+<footer>
+    <h4>In 2 Cuts</h4>
+    <h4>3720 N 1st St</h4>
+    <h4>San Jose, CA 95134</h4>
+    <h4>(408) 435-2887</h4>
+</footer>
+<!-- <div class="container">
     <h1>Add your appointment</h1>
     <form "/appointments" method="POST">
         <input type="text" name="name" placeholder="name" required>
@@ -9,7 +213,7 @@
         <input type="submit">
     </form>
     <h4>Your estimated wait: <%= estimateValueLow + " — " + estimateValueHigh %> minutes</h4>
-</div>
+</div> -->
 
 <script src="scripts/phoneformat.js" type="text/javascript"></script>
 <% include ../partials/footer %>
