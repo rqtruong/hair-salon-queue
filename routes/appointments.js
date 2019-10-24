@@ -61,7 +61,7 @@ router.get("/appointments",function(req,res){
 });
 
 router.post("/appointments", appointmentCreationLimiter, function(req,res){
-    var name = validator.whitelist(req.body.name, 'A-Za-z0-9');
+    var name = validator.whitelist(req.body.name, 'A-Za-z0-9\s');
     var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9\s\-');
     var customerCount = validator.toInt(req.body.customerCount);
     var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount};
@@ -87,7 +87,7 @@ router.get("/admin", isLoggedIn, function(req,res){
 });
 
 router.post("/admin", function(req,res){
-    var name = validator.whitelist(req.body.name, 'A-Za-z0-9');
+    var name = validator.whitelist(req.body.name, 'A-Za-z0-9\s');
     var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9\s\-');
     var customerCount = validator.toInt(req.body.customerCount);
     if(req.body.madeAppointment === "true"){

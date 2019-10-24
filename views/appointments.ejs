@@ -12,10 +12,6 @@
         </ul>
     </nav>
 </header>
-<!-- <div id="hero">
-    <div class="background-image"></div>
-    <a href="#appointments" class="btn">Make an Appointment Today</a> 
-</div> -->
 <div id="top-row">
     <div id="top-img">
         <img src="img/stockphoto.jpg">
@@ -24,12 +20,12 @@
         <h3 class="title"><i class="fas fa-calendar-check"></i> Check-In</h3>
         <div class="flash-container">
             <% if(error && error.length > 0){ %>
-                <div class="alert alert-danger" role="alert">
+                <div role="alert">
                     <%= error %>
                 </div>
             <% } %>
             <% if(success && success.length > 0){ %>
-                <div class="alert alert-success" role="alert">
+                <div role="alert">
                     <%= success %>
                 </div>
             <% } %>
@@ -40,11 +36,10 @@
             <input type="tel" name="phone" placeholder="phone" required> 
             <fieldset id="party-of">
                 <label for="customerCount">Party of:</label>
-                <input type="number" name="customerCount" value=1 min=1 required>
+                <input type="number" name="customerCount" value=1 min=1 max=5 required>
             </fieldset>
             <input type="submit" class="btn" value="Book Now">
         </form>
-        <!-- <h4><a href="https://nameless-plains-37869.herokuapp.com/appointments" rel="noopener noreferrer" target="_blank">Book Now (for testing purposes only)</a></h4> -->
     </div>
 </div>
 <hr>
@@ -59,11 +54,7 @@
                             <li>Manicure</li>
                             <li>Pedicure</li>
                             <li>Nail Art</li>
-                            <li>Shellac</li>
                             <li>Color Change</li>
-                            <li>Mani-Pedi</li>
-                            <li>Eyebrows Tint</li>
-                            <li>Eyelashes Tint</li>
                             <li>Up Do</li>
                         </ul>
                     </div>
@@ -72,11 +63,7 @@
                             <li>15</li>
                             <li>25</li>
                             <li>3 / EA</li>
-                            <li>35</li>
                             <li>10-16</li>
-                            <li>40</li>
-                            <li>15</li>
-                            <li>25</li>
                             <li>60</li>
                         </ul>
                     </div>
@@ -89,7 +76,6 @@
                         <ul>
                             <li>Men Cut</li>
                             <li>Shampoo Cut</li>
-                            <li>The Works</li>
                             <li>Women Cut</li>
                             <li>Shampoo Cut</li>
                             <li>Bang / Beardtrim</li>
@@ -107,7 +93,6 @@
                         <ul>
                             <li>20</li>
                             <li>25</li>
-                            <li>40 & up</li>
                             <li>25 & up</li>
                             <li>30 & up</li>
                             <li>15</li>
@@ -203,17 +188,6 @@
     <h4>San Jose, CA 95134</h4>
     <h4>(408) 435-2887</h4>
 </footer>
-<!-- <div class="container">
-    <h1>Add your appointment</h1>
-    <form "/appointments" method="POST">
-        <input type="text" name="name" placeholder="name" required>
-        <input type="tel" name="phone" placeholder="phone" required>
-        <label for="customerCount">Party of:</label>
-        <input type="number" name="customerCount" value=1 min=1 required>
-        <input type="submit">
-    </form>
-    <h4>Your estimated wait: <%= estimateValueLow + " — " + estimateValueHigh %> minutes</h4>
-</div> -->
 
 <script src="scripts/phoneformat.js" type="text/javascript"></script>
 <% include ../partials/footer %>
