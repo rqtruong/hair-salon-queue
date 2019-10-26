@@ -19,14 +19,16 @@ var appointmentSchema = new mongoose.Schema({
     name: String,
     phone: String,
     customerCount: Number,
-    madeAppointment: Boolean
-});
+    madeAppointment: Boolean,
+    dateString: String,
+}, {timestamps: true});
+
+appointmentSchema.index({createdAt: 1}, {expireAfterSeconds: 3600});
 
 var Appointment = mongoose.model("Appointment", appointmentSchema);
 
 //time estimate variables
 var numWorkers = 1;
-var numAppointments = 0;
 var numQueue = 0;
 var estimateValueLow = 0;
 var estimateValueHigh = estimateValueLow + 10;
@@ -41,10 +43,8 @@ function updateNumAppointments(){
             numQueue += appt.customerCount;
         });
         console.log("Number in queue: " + numQueue);
-        console.log("Number of workers: " + numWorkers);
         estimateValueLow = Math.max(0, numQueue*20 - numWorkers*20);
         estimateValueHigh = estimateValueLow + 10;
-        console.log("Time estimate is " + estimateValueLow + " — "  + estimateValueHigh + " minutes");
     });
 }
 
@@ -61,10 +61,23 @@ router.get("/appointments",function(req,res){
 });
 
 router.post("/appointments", appointmentCreationLimiter, function(req,res){
-    var name = validator.whitelist(req.body.name, 'A-Za-z0-9\s');
-    var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9\s\-');
+    var name = validator.whitelist(req.body.name, 'A-Za-z0-9[\s]');
+    var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9[\s][\-]');
     var customerCount = validator.toInt(req.body.customerCount);
-    var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount};
+    let date = new Date();
+    if (date.getMinutes() < 10){
+        var dateMinutes = "0" + date.getMinutes();
+    }
+    else {
+        var dateMinutes = date.getMinutes();
+    }
+    if (date.getHours() <= 12){
+        var dateString = date.getHours() + ":" + dateMinutes + " AM";
+    }
+    else {
+        var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
+    }
+    var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount, dateString:dateString};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
             console.log(err);
@@ -87,9 +100,22 @@ router.get("/admin", isLoggedIn, function(req,res){
 });
 
 router.post("/admin", function(req,res){
-    var name = validator.whitelist(req.body.name, 'A-Za-z0-9\s');
-    var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9\s\-');
+    var name = validator.whitelist(req.body.name, 'A-Za-z0-9[\s]');
+    var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9[\s]\-');
     var customerCount = validator.toInt(req.body.customerCount);
+    let date = new Date();
+    if (date.getMinutes() < 10){
+        var dateMinutes = "0" + date.getMinutes();
+    }
+    else {
+        var dateMinutes = date.getMinutes();
+    }
+    if (date.getHours() <= 12){
+        var dateString = date.getHours() + ":" + dateMinutes + " AM";
+    }
+    else {
+        var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
+    }
     if(req.body.madeAppointment === "true"){
         var madeAppointment = true;
         console.log("Appointment was made");
@@ -97,7 +123,7 @@ router.post("/admin", function(req,res){
         var madeAppointment = false;
         console.log("This was a walk-in");
     }
-    var newAppointment = {name:name, phone:phone, madeAppointment:madeAppointment, customerCount:customerCount};
+    var newAppointment = {name:name, phone:phone, madeAppointment:madeAppointment, customerCount:customerCount, dateString:dateString};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
             console.log(err);
