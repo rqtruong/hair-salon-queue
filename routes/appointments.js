@@ -65,18 +65,19 @@ router.post("/appointments", appointmentCreationLimiter, function(req,res){
     var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9[\s][\-]');
     var customerCount = validator.toInt(req.body.customerCount);
     let date = new Date();
-    if (date.getMinutes() < 10){
-        var dateMinutes = "0" + date.getMinutes();
-    }
-    else {
-        var dateMinutes = date.getMinutes();
-    }
-    if (date.getHours() <= 12){
-        var dateString = date.getHours() + ":" + dateMinutes + " AM";
-    }
-    else {
-        var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
-    }
+    var dateString = date.toLocaleString('en-US', {timeZone: 'America/Los_Angeles'});
+    // if (date.getMinutes() < 10){
+    //     var dateMinutes = "0" + date.getMinutes();
+    // }
+    // else {
+    //     var dateMinutes = date.getMinutes();
+    // }
+    // if (date.getHours() <= 12){
+    //     var dateString = date.getHours() + ":" + dateMinutes + " AM";
+    // }
+    // else {
+    //     var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
+    // }
     var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount, dateString:dateString};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
@@ -104,18 +105,19 @@ router.post("/admin", function(req,res){
     var phone = phone = validator.whitelist(req.body.phone, '\(\)\+0-9[\s]\-');
     var customerCount = validator.toInt(req.body.customerCount);
     let date = new Date();
-    if (date.getMinutes() < 10){
-        var dateMinutes = "0" + date.getMinutes();
-    }
-    else {
-        var dateMinutes = date.getMinutes();
-    }
-    if (date.getHours() <= 12){
-        var dateString = date.getHours() + ":" + dateMinutes + " AM";
-    }
-    else {
-        var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
-    }
+    var dateString = date.toLocaleString('en-US', {timeZone: 'America/Los_Angeles'});
+    // if (date.getMinutes() < 10){
+    //     var dateMinutes = "0" + date.getMinutes();
+    // }
+    // else {
+    //     var dateMinutes = date.getMinutes();
+    // }
+    // if (date.getUTCHours() - 7 <= 12){
+    //     var dateString = date.getUTCHours() - 7 + ":" + dateMinutes + " AM";
+    // }
+    // else {
+    //     var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
+    // }
     if(req.body.madeAppointment === "true"){
         var madeAppointment = true;
         console.log("Appointment was made");
