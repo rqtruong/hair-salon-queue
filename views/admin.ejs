@@ -1,25 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>In 2 Cuts</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato|Raleway&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="css/bootstrap.css"> 
-    <script src="https://kit.fontawesome.com/55582fa473.js" crossorigin="anonymous"></script>
-</head>
-<body>
+<% include ../partials/header %>
 <div class="container">
     <a class="btn btn-primary btn-sm" href="/logout">Logout</a>
     <h3>Customer Queue</h3>
-    <a class="btn btn-primary btn-sm" href="/display" target="_blank">Display</a>
+    <!-- <a class="btn btn-primary btn-sm" href="/display" target="_blank">Display</a> -->
 <ol id="appts">
     <% appointments.forEach(function(appointment){ %>
         <% if(appointment.madeAppointment){ %>
-            <li>
-                <form class="delete-form" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
-                    <%= appointment.name %> (<%= appointment.customerCount %>), <%= appointment.phone %>, <%= appointment.dateString %>*
-                    <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
+            <li>   
+                <form class="delete-form text-primary" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
+                    <%= appointment.name %> (<%= appointment.customerCount %>), <%= appointment.phone %><br><%= appointment.dateString %>*
+                <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
                 </form>
             </li>
         <% } %>
@@ -28,7 +18,7 @@
         <% if(!appointment.madeAppointment){ %>
             <li>
                 <form class="delete-form" method="POST" action="/admin/<%=appointment._id%>?_method=DELETE">
-                    <%= appointment.name %> (<%= appointment.customerCount %>), <%= appointment.phone %>, <%= appointment.dateString %>
+                    <%= appointment.name %> (<%= appointment.customerCount %>), <%= appointment.phone %><br><%= appointment.dateString %>
                     <button type="submit" class="my-1 btn btn-danger btn-sm">X</button>
                 </form>
             </li>
@@ -41,7 +31,7 @@
     <h3>Add a customer</h3>
     <form "/appointments" method="POST">
         <input type="text" name="name" placeholder="name" required>
-        <input type="tel" name="phone" placeholder="phone" required>
+        <input type="tel" name="phone" placeholder="phone">
         <label for="customerCount">Number of Customers?</label>
         <input type="number" name="customerCount" value=1 min=1 max=5 required>
         <label for="madeAppointment">Appointment?</label>
