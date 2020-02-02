@@ -64,18 +64,6 @@ router.post("/appointments", appointmentCreationLimiter, function(req,res){
     var customerCount = validator.toInt(req.body.customerCount);
     let date = new Date();
     var dateString = date.toLocaleString('en-US', {timeZone: 'America/Los_Angeles'});
-    // if (date.getMinutes() < 10){
-    //     var dateMinutes = "0" + date.getMinutes();
-    // }
-    // else {
-    //     var dateMinutes = date.getMinutes();
-    // }
-    // if (date.getHours() <= 12){
-    //     var dateString = date.getHours() + ":" + dateMinutes + " AM";
-    // }
-    // else {
-    //     var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
-    // }
     var newAppointment = {name:name, phone:phone, madeAppointment:true, customerCount:customerCount, dateString:dateString};
     Appointment.create(newAppointment, function(err,newAppointment){
         if(err){
@@ -104,18 +92,7 @@ router.post("/admin", function(req,res){
     var customerCount = validator.toInt(req.body.customerCount);
     let date = new Date();
     var dateString = date.toLocaleString('en-US', {timeZone: 'America/Los_Angeles'});
-    // if (date.getMinutes() < 10){
-    //     var dateMinutes = "0" + date.getMinutes();
-    // }
-    // else {
-    //     var dateMinutes = date.getMinutes();
-    // }
-    // if (date.getUTCHours() - 7 <= 12){
-    //     var dateString = date.getUTCHours() - 7 + ":" + dateMinutes + " AM";
-    // }
-    // else {
-    //     var dateString = date.getHours()-12 + ":" + dateMinutes + " PM";
-    // }
+
     if(req.body.madeAppointment === "true"){
         var madeAppointment = true;
         console.log("Appointment was made");
@@ -151,16 +128,6 @@ router.post("/workers", function(req,res){
     updateNumAppointments();
     res.redirect("/admin");
 });
-
-// router.get("/display",function(req,res){
-//     Appointment.find({},function(err,allAppointments){
-//         if(err){
-//             console.log(err);
-//         } else{
-//             res.render("display",{appointments:allAppointments});
-//         }
-//     });
-// });
 
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
