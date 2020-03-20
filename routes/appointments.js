@@ -20,7 +20,7 @@ var appointmentSchema = new mongoose.Schema({
     customerCount: Number,
     madeAppointment: Boolean,
     dateString: String,
-    createdAt: {type: Date, expires: '60m', default: Date.now}
+    createdAt: {type: Date, default: Date.now}
 });
 
 var Appointment = mongoose.model("Appointment", appointmentSchema);
@@ -33,14 +33,12 @@ var estimateValueHigh = estimateValueLow + 10;
 function updateNumAppointments(){
     Appointment.countDocuments({}, function(err,count){
         numAppointments = count;
-        //console.log("Number of appointments now: " + count);
     });
     Appointment.find({}, function(err, appoints){
         numQueue = 0;
         appoints.forEach(function(appt){
             numQueue += appt.customerCount;
         });
-       // console.log("Number in queue: " + numQueue);
         estimateValueLow = Math.max(0, numQueue*20 - numWorkers*20);
         estimateValueHigh = estimateValueLow + 10;
     });

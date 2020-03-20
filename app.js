@@ -47,5 +47,4 @@ app.use(authRoutes);
 
 app.listen(process.env.PORT || 8080, process.env.IP, function(){
     console.log("Hair Salon server has started");
-});     
-
+});
