@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express"),
     app = express(),
     bodyParser = require("body-parser"),
@@ -20,7 +21,7 @@ app.use(flash());
 app.set("view engine","ejs");
 
 app.use(require("express-session")({
-    secret: "hairy hair",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false
 }));
